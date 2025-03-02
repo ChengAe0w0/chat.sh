@@ -1,0 +1,3 @@
+- ensure that the commends jq, sed, tr, mktemp exists
+- export apikey='your_siliconflow_apikey'
+- source sourceme.sh
