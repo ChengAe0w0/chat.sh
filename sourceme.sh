@@ -1,10 +1,10 @@
-fromjson(){ # translate text to json
+tojson(){ # translate text to json
 	cat | jq -R | sed 's/^.// ; s/.$/\\n/' | tr -d '\n'
 }
 
 message() { # Usage: $0 [MESSAGE] [CHATFILE] [APIKEY] [MODEL] [URL]
 	mkdir -p "$(dirname "$2")"
-	echo "$(printf '{"role": "user","content": "%s"}' "$(echo "$1" | fromjson)")" >> "$2"
+	echo "$(printf '{"role": "user","content": "%s"}' "$(echo "$1" | tojson)")" >> "$2"
 	# echo user's message to the chatfile
 
 	data="$(printf '{"model": "%s", "stream": true, "messages": [%s]}' "$4" "$(cat "$2")" )"
@@ -21,7 +21,7 @@ message() { # Usage: $0 [MESSAGE] [CHATFILE] [APIKEY] [MODEL] [URL]
 	done
 	echo
 
-	echo "$(printf ',{ "role": "assistant", "content": "%s" },' "$(cat $content | fromjson)")" >> "$2"
+	echo "$(printf ',{ "role": "assistant", "content": "%s" },' "$(cat $content | tojson)")" >> "$2"
 	# echo assistant's message to the chatfile
 }
 
